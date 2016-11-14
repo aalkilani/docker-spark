@@ -13,12 +13,13 @@ RUN $BOOTSTRAP && $HADOOP_PREFIX/bin/hadoop dfsadmin -safemode leave && $HADOOP_
 ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
 ENV PATH $PATH:$SPARK_HOME/bin:$HADOOP_PREFIX/bin
 # update boot script
-COPY bootstrap.sh /etc/bootstrap.sh
-RUN chown root.root /etc/bootstrap.sh
-RUN chmod 700 /etc/bootstrap.sh
+RUN chown root.root /etc/bootstrap.sh && \
+    chmod 700 /etc/bootstrap.sh
 
 #install R
 RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 RUN yum -y install R
+
+COPY bootstrap.sh /etc/bootstrap.sh
 
 ENTRYPOINT ["/etc/bootstrap.sh"]
