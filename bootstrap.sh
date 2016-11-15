@@ -20,6 +20,7 @@ service sshd start
 $HADOOP_PREFIX/sbin/start-dfs.sh
 $HADOOP_PREFIX/sbin/start-yarn.sh
 nohup nice -n 0 /usr/local/hadoop/bin/hdfs --config $HADOOP_CONF_DIR namenode 2>&1 < /dev/null &
+nohup nice -n 0 /usr/local/hadoop/bin/hdfs --config $HADOOP_CONF_DIR datanode 2>&1 < /dev/null &
 
 
 # Wait for main service to come up
