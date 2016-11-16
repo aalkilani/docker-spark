@@ -8,5 +8,3 @@ Please visit course page for details on using the modified version of this docke
 Please visit original repository where this was forked from for more details on original work: [sequenceiq/docker-spark](https://github.com/sequenceiq/sequenceiq/docker-spark)
 
 This repository contains a Docker file to build a Docker image with Apache Spark. This Docker image depends on another modified version of an original made available by sequenceiq [Hadoop Docker](https://github.com/aalkilani/hadoop-docker) image.
-
-
