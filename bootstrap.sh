@@ -14,7 +14,7 @@ sed s/HOSTNAME/$HOSTNAME/ /usr/local/hadoop/etc/hadoop/core-site.xml.template > 
 sed s/HOSTNAME/0.0.0.0/ $SPARK_HOME/yarn-remote-client/yarn-site.xml > /usr/local/hadoop/etc/hadoop/yarn-site.xml
 
 # setting spark defaults
-echo spark.yarn.jar hdfs:///spark/spark-assembly-1.6.1-hadoop2.6.0.jar > $SPARK_HOME/conf/spark-defaults.conf
+echo spark.yarn.jar hdfs:///spark/$SPARK_RELEASE_BASE_VER.jar > $SPARK_HOME/conf/spark-defaults.conf
 cp $SPARK_HOME/conf/metrics.properties.template $SPARK_HOME/conf/metrics.properties
 
 service sshd start
