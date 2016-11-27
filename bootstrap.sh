@@ -21,7 +21,7 @@ $HADOOP_PREFIX/sbin/start-dfs.sh
 $HADOOP_PREFIX/sbin/start-yarn.sh
 nohup nice -n 0 /usr/local/hadoop/bin/hdfs --config $HADOOP_CONF_DIR namenode > /dev/null &
 nohup nice -n 0 /usr/local/hadoop/bin/hdfs --config $HADOOP_CONF_DIR datanode > /dev/null &
-/usr/local/hadoop/etc/hadoop/sbin/yarn-daemon.sh start nodemanager
+(ps -ef | grep -q '[p]roc_nodemanager') || /usr/local/hadoop/sbin/yarn-daemon.sh start nodemanager
 
 # Wait for main service to come up
 while netstat -tln | awk '$4 ~ /:9000$/ {exit 1}'; do sleep 10; done
