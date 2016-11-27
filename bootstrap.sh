@@ -9,8 +9,9 @@ rm /tmp/*.pid
 # installing libraries if any - (resource urls added comma separated to the ACP system variable)
 cd $HADOOP_PREFIX/share/hadoop/common ; for cp in ${ACP//,/ }; do  echo == $cp; curl -LO $cp ; done; cd -
 
-# altering the core-site configuration
+# update configurations
 sed s/HOSTNAME/$HOSTNAME/ /usr/local/hadoop/etc/hadoop/core-site.xml.template > /usr/local/hadoop/etc/hadoop/core-site.xml
+sed s/HOSTNAME/0.0.0.0/ $SPARK_HOME/yarn-remote-client/yarn-site.xml > /usr/local/hadoop/etc/hadoop/yarn-site.xml
 
 # setting spark defaults
 echo spark.yarn.jar hdfs:///spark/spark-assembly-1.6.1-hadoop2.6.0.jar > $SPARK_HOME/conf/spark-defaults.conf
@@ -19,9 +20,9 @@ cp $SPARK_HOME/conf/metrics.properties.template $SPARK_HOME/conf/metrics.propert
 service sshd start
 $HADOOP_PREFIX/sbin/start-dfs.sh
 $HADOOP_PREFIX/sbin/start-yarn.sh
-nohup nice -n 0 /usr/local/hadoop/bin/hdfs --config $HADOOP_CONF_DIR namenode 2>&1 < /dev/null &
-nohup nice -n 0 /usr/local/hadoop/bin/hdfs --config $HADOOP_CONF_DIR datanode 2>&1 < /dev/null &
-
+nohup nice -n 0 /usr/local/hadoop/bin/hdfs --config $HADOOP_CONF_DIR namenode > /dev/null &
+nohup nice -n 0 /usr/local/hadoop/bin/hdfs --config $HADOOP_CONF_DIR datanode > /dev/null &
+(ps -ef | grep -q '[p]roc_nodemanager') || /usr/local/hadoop/sbin/yarn-daemon.sh start nodemanager
 
 # Wait for main service to come up
 while netstat -tln | awk '$4 ~ /:9000$/ {exit 1}'; do sleep 10; done
