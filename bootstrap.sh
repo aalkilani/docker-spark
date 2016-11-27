@@ -9,8 +9,9 @@ rm /tmp/*.pid
 # installing libraries if any - (resource urls added comma separated to the ACP system variable)
 cd $HADOOP_PREFIX/share/hadoop/common ; for cp in ${ACP//,/ }; do  echo == $cp; curl -LO $cp ; done; cd -
 
-# altering the core-site configuration
+# update configurations
 sed s/HOSTNAME/$HOSTNAME/ /usr/local/hadoop/etc/hadoop/core-site.xml.template > /usr/local/hadoop/etc/hadoop/core-site.xml
+sed s/HOSTNAME/0.0.0.0/ $SPARK_HOME/yarn-remote-client/yarn-site.xml > /usr/local/hadoop/etc/hadoop/yarn-site.xml
 
 # setting spark defaults
 echo spark.yarn.jar hdfs:///spark/spark-assembly-1.6.1-hadoop2.6.0.jar > $SPARK_HOME/conf/spark-defaults.conf
