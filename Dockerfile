@@ -2,13 +2,16 @@ FROM aalkilani/hadoop-docker:2.7.1
 MAINTAINER Ahmad Alkilani
 
 ENV SPARK_RELEASE_VER spark-1.6.3-2.11
-    SPARK_RELEASE_BASE_VER spark-assembly-1.6.3-hadoop2.7.0
+ENV SPARK_RELEASE_BASE_VER spark-assembly-1.6.3-hadoop2.7.0
 
 # Setup Spark
-RUN cd /usr/local && wget https://github.com/aalkilani/pluralsight/raw/master/spark-builds/$SPARK_RELEASE_VER.tgz && \
-    tar -xz -C /usr/local/ -f spark-1.6.3-2.11.tgz && \
+RUN yum -y install wget && \
+    cd /usr/local && \ 
+    DL_URI="https://github.com/aalkilani/pluralsight/raw/master/spark-builds/$SPARK_RELEASE_VER.tgz" && \
+    wget $DL_URI && \
+    tar -xz -C /usr/local/ -f $SPARK_RELEASE_VER.tgz && \
     ls /usr/local | grep -q spark && rm -rf /usr/local/spark && \
-    ln -s spark-1.6.3-2.11 spark
+    ln -s $SPARK_RELEASE_VER spark
 
 ENV SPARK_HOME /usr/local/spark
 RUN mkdir $SPARK_HOME/yarn-remote-client
